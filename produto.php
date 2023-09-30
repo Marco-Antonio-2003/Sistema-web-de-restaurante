@@ -3,30 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Produto</title>
 </head>
 <body>
     <div class="container">
-        <form method="post" action="cadastrar_pedido.php">
-            <h2>Escolha de item do produtos </h2>
+        <form action="cadastrar_produto.php" method="post">
+        <h2>Escolha de item do produtos </h2>
+        <br>
             <div class="form-group">
                 <label for="nome_produto">Nome produto:</label>
-                <input type="text" class="form-control" id="nome_produto" name="nome_produto" placeholder="Digite o produto"  >
+                <input type="text" required class="form-control" id="nome_produto" name="nome_produto" placeholder="Digite o produto"  >
             </div>
+            
             <div class="form-group">
-                <label for="qtd_produto">Quantidade:</label>
-                <input type="number" class="form-control" id="qtd_produto" name="qtd_produto" maxlength="10">
+                <label for="categoria_produto">Categoria:</label>
+                <input type="text" required class="form-control" id="categoria_produto" name="categoria_produto" placeholder="Digite a categoria"  >
             </div>
+
             <div class="form-group">
-                <label for="obs_produto">Observação:</label>
-                <input type="textarea" class="form-control" id="obs_produto" name="obs_produto" placeholder="Tirar cebola">
+                <label for="valor_produto">Valor (R$):</label>
+                <input type="number" step=".01" required class="form-control" id="valor_produto" name="valor_produto" placeholder="Digite o valor do produto"  >
             </div>
+
             <div class="form-group">
-                <label for="preco_produto"> Preço unitário:</label>
-                <input type="text" class="form-control" id="preco_produto" name="preco_produto">
+                <label for="foto_produto">Foto do produto:</label>
+                <input type="file" class="form-control" id="foto_produto" name="foto_produto"  >
             </div>
-            <button type="submit" class="btn btn-primary">Adicionar item</button>
+
+            <div class="form-group">
+                <label for="info_produto">Informações Adicionais:</label>
+                <textarea class="form-control" name="info_produto" id="info_produto" cols="30" rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Adicionar produto</button>
             <?php if (isset($resultado)): ?>
                 <?php if ($resultado["cod"] == 1): ?>
                     <div class="alert alert-success">

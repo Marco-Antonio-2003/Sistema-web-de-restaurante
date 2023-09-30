@@ -9,11 +9,8 @@ class TableRows extends RecursiveIteratorIterator {
         $email = $_POST['email'];
         $senha = $_POST['senha'];
     
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-    
         try {
+        include("conexao_bd.php");
         $conn = new PDO("mysql:host=$servername;dbname=restaurante_bd", $username, $password);
         // set the PDO error mode to exception
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
