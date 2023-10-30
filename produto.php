@@ -48,6 +48,50 @@
                 <?php endif; ?>
             <?php endif; ?>
         </form>
+        <br>
+        <br>
+        
+        <?php 
+        $produtos = isset($produtos) ? $produtos : array();
+        if(count($produtos)>0): ?>
+
+                <h4>Produtos cadastrados</h4>
+                <table class="table">
+                <tr>
+                    <th>Codigo</th>
+                    <th>Foto</th>
+                    <th>Nome do produto</th>
+                    <th>categoria</th>
+                    <th>valor</th>
+                    <th>Informações Adicionais</th>
+                    <th>Data e hora do cadastro</th>
+                    <th></th>
+                </tr>
+                <?php 
+                if (isset($produtos) && is_array($produtos)) {
+                    foreach ($produtos as $p) { ?>
+                        <tr>
+                            <td><?= $p['cod_produto'];?></td>
+                            <td><?= $p['foto'];?></td>
+                            <td><?= $p['nome'];?></td>
+                            <td><?= $p['categoria'];?></td>
+                            <td><?= $p['valor'];?></td>
+                            <td><?= $p['info_adicional'];?></td>
+                            <td><?= $p['data_hora'];?></td>
+                            <td>
+                                <button class="btn btn-outline-warning btn-sn">Alterar</button>
+
+                                <a class="btn btn-outline-danger btn-sm" onclick="return confirm('Deseja realmente remover <?= $p['nome']; ?> ?');" href="/remover_produto.php?cod_prod=<?= $p['cod_produto']; ?>">Remover</a>
+
+                            </td>
+                        </tr>
+                    <?php }
+                } else {
+                    echo "Nenhum produto encontrado";
+                } ?>
+                </table>
+        <?php endif ?> 
+
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
