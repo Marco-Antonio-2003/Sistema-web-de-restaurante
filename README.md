@@ -1,4 +1,4 @@
 # Sistema-web-de-restaurante 
 
-<p>Ainda sem banco!</p>
-<lebel>Estou trabalhando nele ainda.</lebel>
+<p>Estou trabalhando nele ainda.</p>
+<lebel>Precisa usar o XAMPP para funcionar! </lebel>
