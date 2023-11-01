@@ -1,18 +1,24 @@
-<?php 
-    try {
-        include("conexao_bd.php");
-    
-        $consulta = $conn-> prepare("SELECT * FROM produto WHERE situacao = 'HABILITADO'");
-        $consulta->execute();
+<?php
 
-        $produtos = $consulta-> fetchAll();
+// Define a função seleciona_produtos_habilitados()
+function seleciona_produtos_habilitados() {
 
-    }catch(PDOException $e) {
-        $resultado['msg'] = "Erro ao selecionar produtos do banco de dados" . $e->getMessage();
-        $resultado["cod"] = 0;
-        $resultado["style"] = "alert=danger";
-    }
-    
-    $conn = null;
-    include("produto.php");
-?>
+    // Inclui o arquivo de conexão com o banco de dados
+    include("conexao_bd.php");
+
+    // Prepara a instrução SQL para selecionar todos os produtos habilitados
+    $sql = "SELECT * FROM produto WHERE situacao = 'Habilitado'";
+
+    // Cria um objeto PDOStatement
+    $stmt = $conn->prepare($sql);
+
+    // Executa a instrução SQL
+    $stmt->execute();
+
+    // Obtém os resultados da consulta
+    $produtos = $stmt->fetchAll();
+
+    // Retorna os produtos habilitados
+    return $produtos;
+}
+

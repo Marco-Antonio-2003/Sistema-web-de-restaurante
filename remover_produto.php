@@ -1,26 +1,30 @@
-<?php 
+<?php
 
-$cod_produto = filter_input(INPUT_POST, 'cod_produto');
+// Criar conexão com o banco de dados
+$conn = new mysqli("localhost", "root", "", "restaurante_bd");
 
-try {
-    include("conexao_bd.php");
-
-    if (empty($cod_produto)) {
-        $resultado["msg"] = "Por favor, forneça um código de produto válido.";
-        $resultado["cod"] = 2;
-    } else {
-        $sql = "DELETE FROM produto WHERE cod_produto = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([$cod_produto]);
-        $resultado["msg"] = "Item removido com sucesso.";
-        $resultado["cod"] = 1;
-    }
-} catch (PDOException $e) {
-    $resultado['msg'] = "Erro ao remover item: " . $e->getMessage();
-    $resultado['cod'] = 0;
+// Verificar a conexão
+if ($conn->connect_error) {
+  die("Erro ao conectar ao banco de dados: " . $conn->connect_error);
 }
 
-$conn = null;
-include("produto.php");
+// ID do produto a ser removido
+$codigo = $_POST['codigo'];
+
+// Remover o produto da tabela
+$sql = "DELETE FROM produto WHERE codigo=$codigo";
+
+if ($conn->query($sql) === TRUE) {
+  // Exibir uma mensagem de sucesso
+  echo "Produto removido com sucesso!";
+} else {
+  // Exibir uma mensagem de erro
+  echo "Erro ao remover o produto: " . $conn->error;
+}
+
+// Fechar a conexão com o banco de dados
+$conn->close();
+
+include("cadastrar_produto.php");
 
 ?>

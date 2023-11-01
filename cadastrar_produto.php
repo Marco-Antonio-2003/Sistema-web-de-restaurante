@@ -10,19 +10,15 @@
  
     try {
         include("conexao_bd.php");
-        $sql = "INSERT INTO produto (nome, categoria, valor, foto, info_adicional, codigo_usuario) VALUES (?,?,?,?,?,?)";
-        $stmt= $conn->prepare($sql);
-        
-        //$stmt = $conn->prepare("SELECT * FROM produto");
-        //$stmt->execute();
-        //$resultado['produtos'] = $stmt->fetchAll();
+        $sql = "INSERT INTO produto (nome, categoria, valor, foto, info_adicional) VALUES (?,?,?,?,?)";
+        $stmt = $conn->prepare($sql);
 
-        // Verifique se os campos estão vazios
+        // Verifica se os campos estão vazios
         if(empty($nome) || empty($categoria) || empty($valor) || empty($foto) || empty($info)) {
             $resultado["msg"] = "Por favor, preencha todos os campos.";
             $resultado ["cod"] = 2;
         } else {
-            $stmt->execute([$nome, $categoria, $valor, $foto, $info, null ]);
+            $stmt->execute([$nome, $categoria, $valor, $foto, $info]);
             $resultado["msg"] = "Produto inserido";
             $resultado ["cod"] = 1;
  
@@ -36,7 +32,6 @@
     try {
         $stmt = $conn->prepare("SELECT * FROM produto");
         $stmt->execute();
-
         $produtos  = $stmt->fetchAll();
 
         
@@ -49,10 +44,6 @@
    
     $conn = null;
 
-
-
     include("produto.php");
-
-
 
 ?>

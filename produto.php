@@ -71,7 +71,7 @@
                 if (isset($produtos) && is_array($produtos)) {
                     foreach ($produtos as $p) { ?>
                         <tr>
-                            <td><?= $p['cod_produto'];?></td>
+                            <td><?= $p['codigo'];?></td>
                             <td><?= $p['foto'];?></td>
                             <td><?= $p['nome'];?></td>
                             <td><?= $p['categoria'];?></td>
@@ -79,9 +79,39 @@
                             <td><?= $p['info_adicional'];?></td>
                             <td><?= $p['data_hora'];?></td>
                             <td>
+                            <form action="remover_produto.php" method="post">
+
+                                <input type="text" name="codigo" placeholder="código do produto" data-id="<?= $p['codigo']; ?>">
+
                                 <button class="btn btn-outline-warning btn-sn">Alterar</button>
 
-                                <a class="btn btn-outline-danger btn-sm" onclick="return confirm('Deseja realmente remover <?= $p['nome']; ?> ?');" href="/remover_produto.php?cod_prod=<?= $p['cod_produto']; ?>">Remover</a>
+                                <button class="btn btn-outline-warning btn-sn" onclick="removerProduto()">Remover</button>
+
+                            </form>
+
+                            <script>
+                                function removerProduto() {
+                                // Obter o id do produto a ser removido
+                                const id = document.querySelector("input[name='codigo']").dataset.id;
+
+                                // Enviar uma solicitação AJAX para remover o produto
+                                fetch(`/remover_produto.php?id=${id}`, {
+                                    method: "POST",
+                                })
+                                    .then((response) => {
+                                    // Verificar se a solicitação foi bem-sucedida
+                                    if (response.ok) {
+                                        // Remover o produto da tabela
+                                        const row = document.querySelector(`tr[data-id="${id}"]`);
+                                        row.remove();
+                                    }
+                                    })
+                                    .catch((error) => {
+                                    // Exibir uma mensagem de erro
+                                    console.error(error);
+                                    });
+                                }
+                            </script>
 
                             </td>
                         </tr>
