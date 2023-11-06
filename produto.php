@@ -83,7 +83,7 @@
 
                                 <input type="text" name="codigo" placeholder="código do produto" data-id="<?= $p['codigo']; ?>">
 
-                                <button class="btn btn-outline-warning btn-sn">Alterar</button>
+                                <a class="btn btn-outline-warning btn-sn" href="produto_form_alterar.php?cod_prod=<?php $p['codigo'] ?>">Alterar</a>
 
                                 <button class="btn btn-outline-warning btn-sn" onclick="removerProduto()">Remover</button>
 
