@@ -1,4 +1,26 @@
-global$nome_original,$produtos; global$produtos; global$produtos; <!DOCTYPE html>
+<?php 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // Define o código do produto que você deseja alterar
+    $codigo = $_POST["codigo"];
+
+    // Define os novos valores para o produto a partir dos campos do formulário
+    $nome = $_POST["nome_produto"];
+    $categoria = $_POST["categoria_produto"];
+    $valor = $_POST["valor_produto"];
+    $info_adicional = $_POST["info_produto"];
+
+    // Prepara a instrução SQL
+    $stmt = $conn->prepare("UPDATE produto SET nome = :nome, categoria = :categoria, valor = :valor, info_adicional = :info_adicional WHERE codigo = :codigo");
+
+    // Executa a instrução SQL
+    $stmt->execute([':nome' => $nome, ':categoria' => $categoria, ':valor' => $valor, ':info_adicional' => $info_adicional, ':codigo' => $codigo]);
+}
+
+   
+?>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,44 +32,46 @@ global$nome_original,$produtos; global$produtos; global$produtos; <!DOCTYPE html
     <div class="container">
     
 
-    <form action="alterar_produto.php" method="post">
-        <h2>Produtos </h2>
-        <br>
-            <div class="form-group">
-                <label for="nome_produto">Nome produto:</label>
-                <input type="text" required value="<?php echo $nome_original['nome']; ?>" class="form-control" id="nome_produto" name="nome_produto" placeholder="Digite o produto"  >
-            </div>
+    <form method="post">
 
-            <div class="form-group">
-                <label for="categoria_produto">Categoria:</label>
-                <input type="text" required  value="<?php echo $produtos['categoria']; ?>" class="form-control" id="categoria_produto" name="categoria_produto" placeholder="Digite a categoria"  >
-            </div>
+    <input type="hidden" name="codigo" value="<?php echo $codigo;?>">
 
-            <div class="form-group">
-                <label for="valor_produto">Valor (R$):</label>
-                <input type="number" step=".01" required value="<?php echo $produtos['valor']; ?>"  class="form-control" id="valor_produto" name="valor_produto" placeholder="Digite o valor do produto"  >
-            </div>
+    <br>
 
-            <div class="form-group">
-                <label for="foto_produto">Foto do produto:</label>
-                <input type="file" class="form-control" id="foto_produto" name="foto_produto"  >
-            </div>
+    <div class="form-group">
+        <label for="nome_produto">Nome produto:</label>
+        <input type="text" required class="form-control" id="nome_produto" name="nome_produto" placeholder="Digite o produto"  >
+    </div>
 
-            <div class="form-group">
-                <label for="info_produto">Informações Adicionais:</label>
-                <textarea class="form-control" name="info_produto" value="<?php echo $produtos['info_adicional']; ?>"  id="info_produto" cols="30" rows="4"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Alterar produto</button>
-           
-        </form>
+    <div class="form-group">
+        <label for="categoria_produto">Categoria:</label>
+        <input type="text" required   class="form-control" id="categoria_produto" name="categoria_produto" placeholder="Digite a categoria"  >
+    </div>
+
+    <div class="form-group">
+        <label for="valor_produto">Valor (R$):</label>
+        <input type="number" step=".01" required   class="form-control" id="valor_produto" name="valor_produto" placeholder="Digite o valor do produto"  >
+    </div>
+
+    <div class="form-group">
+        <label for="foto_produto">Foto do produto:</label>
+        <input type="file" class="form-control" id="foto_produto" name="foto_produto"  >
+    </div>
+
+    <div class="form-group">
+        <label for="info_produto">Informações Adicionais:</label>
+        <textarea class="form-control" name="info_produto"   id="info_produto" cols="30" rows="4"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Alterar produto</button>
+
+</form>
         <?php 
-
-                if (null !== $_GET["cod_prod"] && $_GET["cod_prod"] > 0):
-                    $cod_prod = $_GET["cod_prod"];
-                   include("selecionar_produto.php");
-
+        if (isset($_GET["cod_prod"]) && $_GET["cod_prod"] > 0):
+            $cod_prod = $_GET["cod_prod"];
+            include("selecionar_produto.php");
+        endif;
         ?>
-        <?php endif ?>
+   
         <?php if (isset($resultado)): ?>
                 <?php if ($resultado["cod"] == 1): ?>
                     <div class="alert alert-success">

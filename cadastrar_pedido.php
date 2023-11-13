@@ -1,31 +1,36 @@
 <?php 
+if(count($_POST) > 0) {        
+    
+    session_start();
+    $nome = $_POST["nome_produto"];
+    $qtd = $_POST["qtd_produto"];
+    $obs = $_POST["obs_produto"];
+    $preco = $_POST["preco_produto"];
+    $cod_usuario = $_SESSION["codigo_usuario"];
+    $cod_cliente = $_POST["cod_cliente"];        
 
-$nome = filter_input(INPUT_POST, 'nome_produto');
-$qtd = filter_input(INPUT_POST, 'qtd_produto');
-$obs = filter_input(INPUT_POST, 'obs_produto');
-$preco = filter_input(INPUT_POST, 'preco_produto');
 
 try {
     include("conexao_bd.php");
-    $sql = "INSERT INTO item_pedido (cod_usuario, nome_produto, observacao, preco_und, quantidade) VALUES (?,?,?,?,?)";
-    $stmt= $conn->prepare($sql);
+    if($nome != "Selecione um produto"){
+        $sql = "INSERT INTO item_pedido (cod_usuario, nome_produto, observacao, preco_und, quantidade, cod_cliente) VALUES (?, ?, ?, ?, ?, ?)";
+        $consulta = $conn->prepare($sql);
+        
+        $consulta->execute([$cod_usuario, $nome, $obs, $preco, $qtd, $cod_cliente]);
 
-    // Verifique se os campos estão vazios
-    if(empty($nome) || empty($obs) || empty($preco) || empty($qtd)) {
-        $resultado["msg"] = "Por favor, preencha todos os campos.";
-        $resultado ["cod"] = 0;
-    } else {
-        $stmt->execute([null, $nome, $obs, $preco, $qtd]);
-        $resultado["msg"] = "Item inserido";
-        $resultado ["cod"] = 1;
+        $resultado["msg"] = "Pedido realizado!";
+        $resultado["cod"] = 1;
     }
+    
+
 } catch(PDOException $e) {
-    $resultado['msg'] = "Inserção no bd: falhou: " . $e->getMessage();
-    $resultado['cod'] = 0;
+    echo "Inserção no banco de dados falhou: " . $e->getMessage();
+    $resultado["msg"] = "O pedido não foi realizado!";
+    $resultado["cod"] = 0;
 }
 $conn = null;
+}
 
-include("pedido.php");
 
-
+header("location: pedido.php");
 ?>
